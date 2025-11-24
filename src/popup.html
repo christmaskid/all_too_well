@@ -40,11 +40,16 @@
 </head>
 <body>
     <h3>RedCap問卷小幫手</h3>
-    <div class="input-group">
-        <label for="radioValue">勾第幾欄</label>
-        <input type="text" id="radioValue" value="2">
+    <div class="redcap-div">   
+        <div class="input-group">
+            <label for="radioValue">勾第幾欄</label>
+            <input type="text" id="radioValue" value="2">
+        </div>
+        <button id="clickRadios">勾</button>
     </div>
-    <button id="clickRadios">勾</button>
+    <div class="non-applicable-site" style="display:none;">
+        <p>請在台大校內RedCap問卷頁面使用此擴充功能。</p>
+    </div>
 <script src="popup.js"></script>
 </body>
 </html>

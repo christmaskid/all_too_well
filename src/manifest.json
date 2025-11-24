@@ -15,6 +15,6 @@
     }
   ],
   "host_permissions": [
-    "https://redcap.mc.ntu.edu.tw/surveys/*"
+    "*://redcap.ntu.edu.tw/*"
   ]
 }
