@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Radio Button Clicker",
+  "name": "RedCap問卷小幫手",
   "version": "1.0",
-  "description": "Automatically clicks radio buttons with specified value",
+  "description": "幫你快速打勾課程回饋RedCap問卷中的選項(預設:非常滿意)",
   "permissions": ["activeTab", "scripting"],
   "action": {
     "default_popup": "popup.html"
@@ -11,6 +11,10 @@
     {
       "matches": ["<all_urls>"],
       "js": ["content.js"]
+
     }
+  ],
+  "host_permissions": [
+    "https://redcap.mc.ntu.edu.tw/surveys/*"
   ]
 }

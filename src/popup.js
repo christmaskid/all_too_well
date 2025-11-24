@@ -1,5 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // document.getElementById('clickRadios').addEventListener('click', function() {
+function clickRadioButtonsWrapper() {
     const radioValue = document.getElementById('radioValue').value;
     // Get the active tab and execute the content script function
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
@@ -13,5 +12,6 @@ document.addEventListener('DOMContentLoaded', function() {
             args: [radioValue]
         });
     });
-    // });
-});
+}
+document.addEventListener('DOMContentLoaded', clickRadioButtonsWrapper);
+document.getElementById('clickRadios').addEventListener('click', clickRadioButtonsWrapper);
