@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "RedCap問卷小幫手",
-  "version": "1.1",
+  "version": "1.2",
   "description": "幫你快速打勾課程回饋RedCap問卷中的選項(預設:非常滿意) - 支援自動監測模式",
   "permissions": ["activeTab", "scripting", "storage"],
   "action": {
