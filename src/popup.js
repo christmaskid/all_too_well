@@ -7,11 +7,57 @@ function clickRadioButtonsWrapper() {
             func: (value) => {
                 // The clickRadioButtons function is already available in the page context
                 // through the content script
-                window.clickRadioButtons(value);
+                const clickedCount = window.clickRadioButtons(value);
+                console.log(`手動執行：填入了 ${clickedCount} 個選項`);
             },
             args: [radioValue]
         });
     });
+}
+
+// Save settings function
+async function saveSettings() {
+    const autoMode = document.getElementById('autoMode').checked;
+    const autopilotMode = document.getElementById('autopilotMode').checked;
+    const defaultValue = document.getElementById('radioValue').value;
+    
+    try {
+        await chrome.storage.sync.set({
+            autoMode: autoMode,
+            autopilotMode: autopilotMode,
+            defaultValue: defaultValue
+        });
+        
+        // Show feedback
+        const button = document.getElementById('saveSettings');
+        const originalText = button.textContent;
+        button.textContent = '已儲存！';
+        button.style.backgroundColor = '#4CAF50';
+        
+        setTimeout(() => {
+            button.textContent = originalText;
+            button.style.backgroundColor = '#2196F3';
+        }, 1000);
+        
+        console.log('Settings saved:', { autoMode, autopilotMode, defaultValue });
+    } catch (error) {
+        console.error('Error saving settings:', error);
+    }
+}
+
+// Load settings function
+async function loadSettings() {
+    try {
+        const result = await chrome.storage.sync.get(['autoMode', 'autopilotMode', 'defaultValue']);
+        
+        document.getElementById('autoMode').checked = result.autoMode ?? false;
+        document.getElementById('autopilotMode').checked = result.autopilotMode ?? false;
+        document.getElementById('radioValue').value = result.defaultValue ?? '2';
+        
+        console.log('Settings loaded:', result);
+    } catch (error) {
+        console.error('Error loading settings:', error);
+    }
 }
 
 // Check if current tab is a RedCap survey page
@@ -61,12 +107,25 @@ function checkTabURL() {
 }
 
 document.addEventListener('DOMContentLoaded', async function () {
+    // Load settings first
+    await loadSettings();
+    
+    // Set up event listeners
     document.getElementById('clickRadios')
         .addEventListener('click', clickRadioButtonsWrapper);
+    
+    document.getElementById('saveSettings')
+        .addEventListener('click', saveSettings);
 
+    // Check if we're on a RedCap page
     const isRedcap = await checkTabURL();
     console.log('checkTabURL result =', isRedcap);
+    
+    // Show current auto mode status
     if (isRedcap) {
-        clickRadioButtonsWrapper();
+        const result = await chrome.storage.sync.get(['autoMode']);
+        if (result.autoMode) {
+            console.log('自動模式已開啟，會在頁面載入時自動填入');
+        }
     }
 });
